@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-22.04
+          - windows-10
         provider:
           - qemu
     steps:
