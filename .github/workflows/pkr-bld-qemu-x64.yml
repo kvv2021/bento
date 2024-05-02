@@ -46,6 +46,7 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
+
       - name: Download and prep Virtio
         id: download-and-prep-virtio
         #working-directory: ./windows-10
@@ -57,8 +58,6 @@ jobs:
           sudo mkdir -p /home/runner/work/bento/bento/packer_templates/builds/iso/
           sudo chmod -R 777 /home/runner/work/bento/bento/packer_templates/builds/iso
           cp virtio-win.iso /home/runner/work/bento/bento/packer_templates/builds/iso
-
-      - name: 
 
       - name: create an ngrok tunnel
         uses: kvv2021/ngrok-tunnel-action@master
