@@ -1,9 +1,12 @@
 ---
+name: Test - QEMU Win10 Builder
+run-name: Test QEMU Win10
+
 on:
-  workflow_call:
+  workflow_dispatch:
 
 env:
-  PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  #PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   PACKER_LOG: "1"
 
 jobs:
@@ -13,26 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - almalinux-8
-          - almalinux-9
-          - centos-7
-          - centos-stream-8
-          - centos-stream-9
-          - debian-11
-          - debian-12
-          - fedora-39
-          - fedora-40
-          - freebsd-13
-          - freebsd-14
-          - opensuse-leap-15
-          - oraclelinux-7
-          - oraclelinux-8
-          - oraclelinux-9
-          - rockylinux-8
-          - rockylinux-9
-          - ubuntu-20.04
           - ubuntu-22.04
-          - ubuntu-24.04
         provider:
           - qemu
     steps:
@@ -62,6 +46,33 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
+      - name: Download and prep Virtio
+        id: download-and-prep-virtio
+        #working-directory: ./windows-10
+        #env:
+          #virtio_version: "0.1.248"
+        run: | 
+          wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.189-1/virtio-win-0.1.189.iso
+          mv virtio-win-0.1.189.iso virtio-win.iso
+          sudo mkdir -p /home/runner/work/bento/bento/packer_templates/builds/iso/
+          sudo chmod -R 777 /home/runner/work/bento/bento/packer_templates/builds/iso
+          cp virtio-win.iso /home/runner/work/bento/bento/packer_templates/builds/iso
+
+      - name: create an ngrok tunnel
+        uses: kvv2021/ngrok-tunnel-action@master
+        #uses: elastic/pk-edu-actions/test-actions/ngrok-tunnel@dev-testing-ngrok-action
+        id: ngrok-tunnel
+        with:
+          timeout: 1h
+          port: 5900
+          ngrok_authtoken: ${{ secrets.NGROK_AUTHTOKEN }}
+          #tunnel_type: http
+          tunnel_type: tcp
+          save_url_to_filename: tunnelURL.md
+
+      - name: Print the Ngrok tunnel URL
+        run: echo ${{ steps.ngrok-tunnel.outputs.tunnel-url }}
+          
       - name: Install Bento
         run: |
           eval "$(chef shell-init bash)"
