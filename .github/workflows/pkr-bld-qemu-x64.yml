@@ -46,17 +46,19 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      #- name: Download and prep Virtio
-      #  id: download-and-prep-virtio
+      - name: Download and prep Virtio
+        id: download-and-prep-virtio
         #working-directory: ./windows-10
         #env:
           #virtio_version: "0.1.248"
-      #  run: | 
-      #    wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.189-1/virtio-win-0.1.189.iso
-      #    mv virtio-win-0.1.189.iso virtio-win.iso
-      #    sudo mkdir -p /home/runner/work/bento/bento/packer_templates/builds/iso/
-      #    sudo chmod -R 777 /home/runner/work/bento/bento/packer_templates/builds/iso
-      #    cp virtio-win.iso /home/runner/work/bento/bento/packer_templates/builds/iso
+        run: | 
+          wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.189-1/virtio-win-0.1.189.iso
+          mv virtio-win-0.1.189.iso virtio-win.iso
+          sudo mkdir -p /home/runner/work/bento/bento/packer_templates/builds/iso/
+          sudo chmod -R 777 /home/runner/work/bento/bento/packer_templates/builds/iso
+          cp virtio-win.iso /home/runner/work/bento/bento/packer_templates/builds/iso
+
+      - name: 
 
       - name: create an ngrok tunnel
         uses: kvv2021/ngrok-tunnel-action@master
