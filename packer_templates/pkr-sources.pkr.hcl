@@ -44,7 +44,7 @@ locals {
       ["-device", "qemu-xhci"],
       ["-cpu", "host,hv_relaxed,hv_spinlocks=0x1fff,hv_time,hv_vapic,hv_vendor_id=0xDEADBEEFFF"],
       ["-vga", "virtio"], 
-      ["-display", "sdl,gl=on"],
+      ["-nographic"],
       ["-drive", "file=/home/runner/work/bento/bento/packer_templates/builds/iso/virtio-win.iso,media=cdrom,index=3"],
       ["-drive", "file=${var.iso_url},media=cdrom,index=2"],
       ["-drive", "file=${path.root}/../builds/build_files/packer-${var.os_name}-${var.os_version}-${var.os_arch}-qemu/{{ .Name }},if=virtio,cache=writeback,discard=ignore,format=qcow2,index=1"],
