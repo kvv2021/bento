@@ -42,7 +42,6 @@ locals {
   qemuargs = var.qemuargs == null ? (
     var.is_windows ? [
       ["-device", "qemu-xhci"],
-      ["-device", "usb=tablet"],
       ["-cpu", "host,hv_relaxed,hv_spinlocks=0x1fff,hv_time,hv_vapic,hv_vendor_id=0xDEADBEEFFF"],
       ["-vga", "virtio"], 
       ["-display", "sdl,gl=on"],
